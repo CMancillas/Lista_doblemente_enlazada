@@ -1,7 +1,5 @@
 # ninja log v5
-15	599	1710819266068577271	build.ninja	81a4f44343195d7
+0	505	1710865520157441167	build.ninja	81a4f44343195d7
 14	3866	1710819182893053391	CMakeFiles/ListasDoblementeEnlazadas.dir/DoublyLinkedList.cpp.o	32c0f72ad97327c
-3867	4707	1710819183739294279	ListasDoblementeEnlazadas	9c410e767e697fef
-16	5776	1710819107294677909	CMakeFiles/ListasDoblementeEnlazadas.dir/main.cpp.o	2b0a21f0a99c0920
-0	505	1710819266068577271	build.ninja	81a4f44343195d7
 13	1045	1710819267163100689	ListasDoblementeEnlazadas	c53c809ef77be03a
+16	5776	1710819107294677909	CMakeFiles/ListasDoblementeEnlazadas.dir/main.cpp.o	2b0a21f0a99c0920

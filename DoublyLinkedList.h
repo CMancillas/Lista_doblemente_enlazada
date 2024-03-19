@@ -42,7 +42,7 @@ private:
     struct Element{
         // Constructor por default del struct
         Element(int value, Element *next = nullptr, Element *previous = nullptr) ;
-        int value;
+        T value;
         Element *next;
         Element *previous;
     };
