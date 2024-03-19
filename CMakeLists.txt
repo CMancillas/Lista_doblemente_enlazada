@@ -4,5 +4,5 @@ project(ListasDoblementeEnlazadas)
 set(CMAKE_CXX_STANDARD 17)
 
 add_executable(ListasDoblementeEnlazadas main.cpp
-        ListasDobles.cpp
-        ListasDobles.h)
+        DoublyLinkedList.tpp
+        DoublyLinkedList.h)

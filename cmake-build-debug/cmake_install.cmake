@@ -1,4 +1,4 @@
-# Install script for directory: /Users/CMUnison/Library/CloudStorage/OneDrive-UniversidaddeSonora/Unison/4to Semestre/EstructuraDatos/ListasDoblementeEnlazadas
+# Install script for directory: /Users/CMUnison/Documents/GitHub/Lista_doblemente_enlazada/Lista_doblemente_enlazada
 
 # Set the install prefix
 if(NOT DEFINED CMAKE_INSTALL_PREFIX)
@@ -45,5 +45,5 @@ endif()
 
 string(REPLACE ";" "\n" CMAKE_INSTALL_MANIFEST_CONTENT
        "${CMAKE_INSTALL_MANIFEST_FILES}")
-file(WRITE "/Users/CMUnison/Library/CloudStorage/OneDrive-UniversidaddeSonora/Unison/4to Semestre/EstructuraDatos/ListasDoblementeEnlazadas/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
+file(WRITE "/Users/CMUnison/Documents/GitHub/Lista_doblemente_enlazada/Lista_doblemente_enlazada/cmake-build-debug/${CMAKE_INSTALL_MANIFEST}"
      "${CMAKE_INSTALL_MANIFEST_CONTENT}")

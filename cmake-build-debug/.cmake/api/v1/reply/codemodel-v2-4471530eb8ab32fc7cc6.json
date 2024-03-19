@@ -39,7 +39,7 @@
 				{
 					"directoryIndex" : 0,
 					"id" : "ListasDoblementeEnlazadas::@6890427a1f51a3e7e1df",
-					"jsonFile" : "target-ListasDoblementeEnlazadas-Debug-9408400fd48c3a0958ff.json",
+					"jsonFile" : "target-ListasDoblementeEnlazadas-Debug-bfa4e84de9d2c2944c65.json",
 					"name" : "ListasDoblementeEnlazadas",
 					"projectIndex" : 0
 				}
@@ -49,8 +49,8 @@
 	"kind" : "codemodel",
 	"paths" : 
 	{
-		"build" : "/Users/CMUnison/Library/CloudStorage/OneDrive-UniversidaddeSonora/Unison/4to Semestre/EstructuraDatos/ListasDoblementeEnlazadas/cmake-build-debug",
-		"source" : "/Users/CMUnison/Library/CloudStorage/OneDrive-UniversidaddeSonora/Unison/4to Semestre/EstructuraDatos/ListasDoblementeEnlazadas"
+		"build" : "/Users/CMUnison/Documents/GitHub/Lista_doblemente_enlazada/Lista_doblemente_enlazada/cmake-build-debug",
+		"source" : "/Users/CMUnison/Documents/GitHub/Lista_doblemente_enlazada/Lista_doblemente_enlazada"
 	},
 	"version" : 
 	{
