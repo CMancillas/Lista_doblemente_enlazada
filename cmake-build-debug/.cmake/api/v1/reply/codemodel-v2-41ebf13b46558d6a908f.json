@@ -1,0 +1,60 @@
+{
+	"configurations" : 
+	[
+		{
+			"directories" : 
+			[
+				{
+					"build" : ".",
+					"jsonFile" : "directory-.-Debug-f5ebdc15457944623624.json",
+					"minimumCMakeVersion" : 
+					{
+						"string" : "3.27"
+					},
+					"projectIndex" : 0,
+					"source" : ".",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"name" : "Debug",
+			"projects" : 
+			[
+				{
+					"directoryIndexes" : 
+					[
+						0
+					],
+					"name" : "ListasDoblementeEnlazadas",
+					"targetIndexes" : 
+					[
+						0
+					]
+				}
+			],
+			"targets" : 
+			[
+				{
+					"directoryIndex" : 0,
+					"id" : "ListasDoblementeEnlazadas::@6890427a1f51a3e7e1df",
+					"jsonFile" : "target-ListasDoblementeEnlazadas-Debug-9408400fd48c3a0958ff.json",
+					"name" : "ListasDoblementeEnlazadas",
+					"projectIndex" : 0
+				}
+			]
+		}
+	],
+	"kind" : "codemodel",
+	"paths" : 
+	{
+		"build" : "/Users/CMUnison/Library/CloudStorage/OneDrive-UniversidaddeSonora/Unison/4to Semestre/EstructuraDatos/ListasDoblementeEnlazadas/cmake-build-debug",
+		"source" : "/Users/CMUnison/Library/CloudStorage/OneDrive-UniversidaddeSonora/Unison/4to Semestre/EstructuraDatos/ListasDoblementeEnlazadas"
+	},
+	"version" : 
+	{
+		"major" : 2,
+		"minor" : 6
+	}
+}
