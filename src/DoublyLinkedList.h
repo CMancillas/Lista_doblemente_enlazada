@@ -24,7 +24,7 @@ public:
     void deleteFirst();
     void deleteLast();
     void deleteIndicatedIndex(int index);
-    bool searchValue(int index) const;
+    bool searchValue(T) const;
     int searchIndex(T value) const;
     bool isEmpty() const;
     T getFirstValue() const;
@@ -35,16 +35,15 @@ public:
     void clear();
     void printForward() const;
     void printBackwards() const;
-
-    void deleteCondition();
+    void deleteOcurrence(T);
     void deleteCondition(bool (*func) ());
     void sort(bool (*condition) ());
     void transfer(DoublyLinkedList<T>& l);
     void transfer(DoublyLinkedList<T> &l, int initial, int final);
     void transfer(DoublyLinkedList<T>& l, int index);
     T operator[](int i) const;
-
     void intercambiar(DoublyLinkedList<T> &l);
+
     class ListEmpty : public std::exception {
   public:
     virtual const char *what() const throw();

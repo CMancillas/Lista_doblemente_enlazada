@@ -93,7 +93,7 @@ void DoublyLinkedList<T>::insertLast(T value)
 template <typename T>
 void DoublyLinkedList<T>::insertIndicatedIndex(T value, int index)
 {
-    if (index < 0 || index >= size()) throw "Indice fuera de rango";
+    if (index < 0 || index >= size()) throw OutRange();
     if (index == 0) insertBeginning(value);
     else if (index == size()-1) insertLast(value);
     else
@@ -107,14 +107,19 @@ void DoublyLinkedList<T>::insertIndicatedIndex(T value, int index)
 }
 // **************************************************************
 // Metodo eliminar primer elemento de la lista
-template <typename T> void DoublyLinkedList<T>::deleteFirst() {
-    if (isEmpty())
-        return;//throw "Error: The list is empty.";
+template <typename T>
+void DoublyLinkedList<T>::deleteFirst()
+{
+    if (isEmpty()) throw ListEmpty();
+
     Element *aux = first;
-    first = aux->next;
-    if(first == nullptr) last = nullptr;
-    else
+    first = first->next;
+    if (first != nullptr)
+    {
         first->previous = nullptr;
+    }
+    else last = nullptr;
+
     delete aux;
     --size_;
 }
@@ -123,14 +128,30 @@ template <typename T> void DoublyLinkedList<T>::deleteFirst() {
 template <typename T>
 void DoublyLinkedList<T>::deleteLast()
 {
-    
+    if (isEmpty()) throw ListEmpty();
+
+    Element *aux = last;
+
+    last = last->previous;
+
+    if (last != nullptr)
+    {
+        last->next = nullptr;
+    }
+    else
+    {
+        first = nullptr;
+    }
+
+    delete aux;
+    --size_;
 }
 // **************************************************************
 // Metodo eliminar elemento de la posicion indicada de la lista
 template <typename T>
 void DoublyLinkedList<T>::deleteIndicatedIndex(int index)
 {
-    if (index < 0 || index >= size()) throw "Indice fuera de rango";
+    if (index < 0 || index >= size()) OutRange();
     if (index == 0) deleteFirst();
     else if (index == size() - 1) deleteLast();
     else
@@ -149,14 +170,35 @@ void DoublyLinkedList<T>::deleteIndicatedIndex(int index)
 template <typename T>
 bool DoublyLinkedList<T>::searchValue(T value) const
 {
-    
+    if (isEmpty()) throw ListEmpty();
+
+    Element *aux = first;
+
+    while (aux != nullptr)
+    {
+        if (aux->value == value) return true;
+        aux = aux->next;
+    }
+
+    return false;
 }
 // **************************************************************
 // Metodo para obtener la posicion de un elemento de la lista
 template <typename T>
 int DoublyLinkedList<T>::searchIndex(T value) const
 {
-    return 0;
+    if (!searchValue(value)) return -1; // Valor no encontrado
+    int counter = 0;
+    Element *aux = first;
+
+    while (aux != nullptr)
+    {
+        if (aux->value == value) return counter;
+        aux = aux->next;
+        ++counter;
+    }
+
+    return NO_ENCONTRADO;
 }
 // **************************************************************
 // Metodo para verificar si la lista esta vacia
@@ -185,14 +227,11 @@ template <typename T>
 T DoublyLinkedList<T>::getValueIndicatedIndex(int index) const
 {
     if (index < 0 || index >= size())
-        throw "Fuera de rango";
-
+        throw OutRange();
+    
     Element *aux = first; 
-
-    for(int i = 0 ; i < index; ++i) 
-
-        aux =  aux->next; 
-
+    
+    for(int i = 0 ; i < index; ++i) aux =  aux->next; 
     return aux->value;
 }
 // **************************************************************
@@ -200,7 +239,13 @@ T DoublyLinkedList<T>::getValueIndicatedIndex(int index) const
 template <typename T>
 void DoublyLinkedList<T>::modifyValueIndicatedIndex(int index, T value)
 {
+    if (index < 0 || index >= size()) throw OutRange();
 
+    Element *aux = first;
+
+    for (int i = 0; i < index; ++i) aux = aux->next;
+
+    aux->value = value;
 }
 // **************************************************************
 // Metodo para obtener el tamaño de la lista
@@ -249,31 +294,25 @@ void DoublyLinkedList<T>::deleteCondition(bool (*func) ())
         aux = aux->next;
     }
 }
-// Metodo para eliminar todo elemento que cumpla una condicion
 template <typename T>
-void DoublyLinkedList<T>::deleteCondition()
+void DoublyLinkedList<T>::deleteOcurrence(T value)
 {
+    if(isEmpty()) throw ListEmpty();
+
     Element *aux = first;
-    Element *after = first;
-    bool valueRepeat = false;
-    int i = 0;
-    while (i != size() - 1) {
-        for (int j = 1; j < size(); ++j) {
-            if (after->value == aux->next->value) {
-                valueRepeat = true;
-                break;
-            }
+    Element *before = aux->next;
+    int index = 0;
+    
+    while(aux != nullptr) {
+        if (aux->value == value) {
+            aux = aux->next;
+            deleteIndicatedIndex(index);
+        } else {
+            index++;
             aux = aux->next;
         }
-        after = after->next;
-        aux = after;
-        ++i;
-    }
-    if (valueRepeat) {
-        Element *deleted = aux->next;
-        aux->next = aux->next->next;
-        aux->next->next->previous = aux;
-        delete deleted;
+        aux = before;
+        if (before != nullptr) before = before->next;
     }
 }
 // Metodo para ordenar de forma ascendente
@@ -327,7 +366,6 @@ void DoublyLinkedList<T>::transfer(DoublyLinkedList<T> &l, int initial, int fina
     l.size_ -= (final - initial + 1);
 
     last->next = nullptr;
-    std::cout << "saliendo\n";
 }
 // Metodo para ordenar de forma ascendente
 template <typename T>
@@ -337,7 +375,25 @@ void DoublyLinkedList<T>::transfer(DoublyLinkedList<T>& l, int index)
 }
 // **************************************************************
 // Metodo para imprimir la lista de ultimo a primero
-template <typename T> void DoublyLinkedList<T>::printBackwards() const {}
+template <typename T>
+void DoublyLinkedList<T>::printBackwards() const
+{
+    if (isEmpty())
+    {
+        std::cout << "()" << std::endl;
+        return;
+    }
+
+    Element *aux = last;
+    std::cout << "(";
+
+    while (aux != nullptr)
+    {
+        std::cout << aux->value << ", ";
+        aux = aux->previous;
+    }
+    std::cout << "\b\b)" << std::endl;
+}
 
 // Metodo para imprimir la lista de ultimo a primero
 template <typename T>
