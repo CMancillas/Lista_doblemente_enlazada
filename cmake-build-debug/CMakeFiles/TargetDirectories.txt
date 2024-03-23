@@ -1,3 +1,0 @@
-/Users/CMUnison/Documents/GitHub/Lista_doblemente_enlazada/Lista_doblemente_enlazada/cmake-build-debug/CMakeFiles/ListasDoblementeEnlazadas.dir
-/Users/CMUnison/Documents/GitHub/Lista_doblemente_enlazada/Lista_doblemente_enlazada/cmake-build-debug/CMakeFiles/edit_cache.dir
-/Users/CMUnison/Documents/GitHub/Lista_doblemente_enlazada/Lista_doblemente_enlazada/cmake-build-debug/CMakeFiles/rebuild_cache.dir

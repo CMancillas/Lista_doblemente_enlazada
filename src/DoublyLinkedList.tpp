@@ -100,8 +100,9 @@ void DoublyLinkedList<T>::insertIndicatedIndex(T value, int index)
     {
         Element *aux = first;
         for (int i = 1; i < index; ++i) aux = aux->next;
-        Element *aux2 = new Element(value, aux->next, aux->previous);
-        aux->next = aux2;
+        Element *new_ = new Element(value, aux->next, aux);
+        aux->next->previous = new_;     
+        aux->next = new_;
         ++size_;
     }
 }
@@ -110,16 +111,13 @@ void DoublyLinkedList<T>::insertIndicatedIndex(T value, int index)
 template <typename T>
 void DoublyLinkedList<T>::deleteFirst()
 {
-    if (isEmpty()) throw ListEmpty();
-
+    if (isEmpty())
+        throw ListEmpty();
     Element *aux = first;
-    first = first->next;
-    if (first != nullptr)
-    {
+    first = aux->next;
+    if(first == nullptr) last = nullptr;
+    else
         first->previous = nullptr;
-    }
-    else last = nullptr;
-
     delete aux;
     --size_;
 }
@@ -149,8 +147,7 @@ void DoublyLinkedList<T>::deleteLast()
 // **************************************************************
 // Metodo eliminar elemento de la posicion indicada de la lista
 template <typename T>
-void DoublyLinkedList<T>::deleteIndicatedIndex(int index)
-{
+void DoublyLinkedList<T>::deleteIndicatedIndex(int index) {
     if (index < 0 || index >= size()) OutRange();
     if (index == 0) deleteFirst();
     else if (index == size() - 1) deleteLast();
@@ -158,7 +155,9 @@ void DoublyLinkedList<T>::deleteIndicatedIndex(int index)
     {
         // Elemento que va a borrar el indice indicado
         Element *aux = first;
-        for (int i = 0; i < index; ++i) aux = aux->next;
+        for (int i = 0; i < index; ++i)
+            aux = aux->next;
+        
         aux->previous->next = aux->next;
         aux->next->previous = aux->previous;
         delete aux;
@@ -224,7 +223,7 @@ T DoublyLinkedList<T>::getLastValue() const
 // **************************************************************
 // Metodo para obtener el valor de la posicion indicada de la lista
 template <typename T>
-T DoublyLinkedList<T>::getValueIndicatedIndex(int index) const
+T& DoublyLinkedList<T>::getValueIndicatedIndex(int index) const
 {
     if (index < 0 || index >= size())
         throw OutRange();
@@ -280,15 +279,12 @@ template <typename T> void DoublyLinkedList<T>::printForward() const {
 // **************************************************************
 // Metodo para eliminar todo elemento que cumpla una condicion
 template <typename T>
-void DoublyLinkedList<T>::deleteCondition(bool (*func) ())
-{
+void DoublyLinkedList<T>::deleteCondition(bool (*func)(const T &)) {
+    if (isEmpty()) throw ListEmpty();
     Element *aux = first;
     for (int i = 0; i < size(); ++i) {
-        if (func()) {
-            aux->previous->next = aux->next;
-            aux->next->previous = aux->previous;
-            delete aux;
-            --size_;
+        if (func(aux->value)) {
+            deleteIndicatedIndex(i);
             break;
         }
         aux = aux->next;
@@ -315,21 +311,55 @@ void DoublyLinkedList<T>::deleteOcurrence(T value)
         if (before != nullptr) before = before->next;
     }
 }
-// Metodo para ordenar de forma ascendente
-template <typename T> void DoublyLinkedList<T>::sort(bool (*condition) ()) {
-    // Element* aux = first;
-	// int aux, j;
 
-    // for (int i = 0; i < size(); i++) {
-	// 	j = i - 1;
-	// 	while (j >= 0 && condition())
-	// 	{
-	// 		Intercambiar(vector[j + 1], vector[j]);
-	// 		j--;
-	// 	}
-    //     vector[j + 1] = aux;
-    //     aux = aux->next;
-	// }
+template <typename T>
+void DoublyLinkedList<T>::deleteRepeat()
+{
+    if(isEmpty()) throw ListEmpty();
+
+    DoublyLinkedList<T> list;
+    Element * aux = first;
+
+    for (int i = 0; i < size(); ++i) {
+        if(list.isEmpty() || !list.searchValue(aux->value)) list.insertLast(aux->value);
+        aux = aux->next;
+    }
+    *this = list;
+}
+
+// Metodo para ordenar de forma ascendente
+template <typename T> void DoublyLinkedList<T>::sort(bool (*condition) (const T&, const T&)) {
+    if (first == nullptr || first->next == nullptr) {
+        // La lista está vacía o tiene un solo elemento, ya está ordenada
+        return;
+    }
+
+    Element *current = first->next; // Comenzar desde el segundo elemento
+
+    while (current != nullptr) {
+        T currentValue = current->value;
+        Element *previous = current->previous;
+        bool found = false;
+
+        // Mover hacia atrás para encontrar la posición correcta para el elemento actual
+        while (previous != nullptr && condition(currentValue, previous->value)) {
+            previous->next->value = previous->value; // Mover el valor hacia adelante
+            previous = previous->previous;
+            found = true; // Indica que se ha encontrado una posición y se ha movido al menos un elemento
+        }
+
+        if (found) {
+            // Si se encontró la posición, insertar el valor actual
+            if (previous == nullptr) {
+                // Insertar al principio
+                first->value = currentValue;
+            } else {
+                previous->next->value = currentValue;
+            }
+        }
+
+        current = current->next; // Mover al siguiente elemento para ordenar
+    }
 }
 // Metodo para ordenar de forma ascendente
 template <typename T>
@@ -397,7 +427,12 @@ void DoublyLinkedList<T>::printBackwards() const
 
 // Metodo para imprimir la lista de ultimo a primero
 template <typename T>
-T DoublyLinkedList<T>::operator[](int i) const
+T& DoublyLinkedList<T>::operator[](int i)
+{
+    return getValueIndicatedIndex(i);
+}
+template <typename T>
+const T& DoublyLinkedList<T>::operator[](int i) const
 {
     return getValueIndicatedIndex(i);
 }
