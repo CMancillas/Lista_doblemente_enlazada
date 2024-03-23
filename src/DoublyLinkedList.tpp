@@ -93,9 +93,9 @@ void DoublyLinkedList<T>::insertLast(T value)
 template <typename T>
 void DoublyLinkedList<T>::insertIndicatedIndex(T value, int index)
 {
-    if (index < 0 || index > size) throw "Indice fuera de rango";
+    if (index < 0 || index >= size()) throw "Indice fuera de rango";
     if (index == 0) insertBeginning(value);
-    else if (index == size) insertLast(value);
+    else if (index == size()-1) insertLast(value);
     else
     {
         Element *aux = first;
@@ -113,7 +113,8 @@ template <typename T> void DoublyLinkedList<T>::deleteFirst() {
     Element *aux = first;
     first = aux->next;
     if(first == nullptr) last = nullptr;
-    else first->previous = nullptr;
+    else
+        first->previous = nullptr;
     delete aux;
     --size_;
 }
@@ -146,18 +147,9 @@ void DoublyLinkedList<T>::deleteIndicatedIndex(int index)
 // **************************************************************
 // Metodo para verificar si existe un elemento en la lista
 template <typename T>
-T DoublyLinkedList<T>::searchValue(int index) const
+bool DoublyLinkedList<T>::searchValue(T value) const
 {
-    if (index < 0 || index >= size())
-        throw "Fuera de rango";
-
-    Element *aux = first; 
-
-    for(int i = 0 ; i < index; ++i) 
-
-        aux =  aux->next; 
-
-    return aux->value;
+    
 }
 // **************************************************************
 // Metodo para obtener la posicion de un elemento de la lista
@@ -178,21 +170,30 @@ bool DoublyLinkedList<T>::isEmpty() const
 template <typename T>
 T DoublyLinkedList<T>::getFirstValue() const
 {
-    
+    return first->value;
 }
 // **************************************************************
 // Metodo para obtener el ultimo elemento de la lista
 template <typename T>
 T DoublyLinkedList<T>::getLastValue() const
 {
-
+    return last->value;
 }
 // **************************************************************
 // Metodo para obtener el valor de la posicion indicada de la lista
 template <typename T>
 T DoublyLinkedList<T>::getValueIndicatedIndex(int index) const
 {
+    if (index < 0 || index >= size())
+        throw "Fuera de rango";
 
+    Element *aux = first; 
+
+    for(int i = 0 ; i < index; ++i) 
+
+        aux =  aux->next; 
+
+    return aux->value;
 }
 // **************************************************************
 // Metodo para modificar el valor de la posicion indicada de la lista
@@ -242,7 +243,7 @@ void DoublyLinkedList<T>::deleteCondition(bool (*func) ())
             aux->previous->next = aux->next;
             aux->next->previous = aux->previous;
             delete aux;
-            --size;
+            --size_;
             break;
         }
         aux = aux->next;
@@ -295,6 +296,7 @@ template <typename T> void DoublyLinkedList<T>::sort(bool (*condition) ()) {
 template <typename T>
 void DoublyLinkedList<T>::transfer(DoublyLinkedList<T>& l)
 {
+    transfer(l, 0, size() - 1);
 }
 // Metodo para ordenar de forma ascendente
 template <typename T>
@@ -304,21 +306,34 @@ void DoublyLinkedList<T>::transfer(DoublyLinkedList<T> &l, int initial, int fina
     for (int i = 0; i < initial; ++i) {
         aux = aux->next;
     }
-     
+    Element *new_ = aux->previous;
+    
     aux->previous = last;
     aux->previous->next = aux;
 
     for (int i = 0; i < final - initial; ++i)
-        aux = aux->next;     
+        aux = aux->next;
+    
     last = aux;
-    last->next = nullptr;
+    if (aux->next != nullptr)
+        aux->next->previous = new_;
+    else l.last = new_;
+     
+    if (new_ != nullptr)
+        new_->next = aux->next;
+    else l.first = aux->next;
+    
     size_ += (final - initial + 1);
-    l.size_ -= (final - initial + 1);     
+    l.size_ -= (final - initial + 1);
+
+    last->next = nullptr;
+    std::cout << "saliendo\n";
 }
 // Metodo para ordenar de forma ascendente
 template <typename T>
 void DoublyLinkedList<T>::transfer(DoublyLinkedList<T>& l, int index)
 {
+    transfer(l, index, size() - 1);
 }
 // **************************************************************
 // Metodo para imprimir la lista de ultimo a primero
@@ -331,6 +346,22 @@ T DoublyLinkedList<T>::operator[](int i) const
     return getValueIndicatedIndex(i);
 }
 
+// Metodo para imprimir la lista de ultimo a primero
+template <typename T>
+void DoublyLinkedList<T>::intercambiar(DoublyLinkedList<T>& l)
+{
+    Element *aux = l.first;
+    l.first = first;
+    first = aux;
+
+    aux = l.last;
+    l.last = last;
+    last = aux;
+
+    int auxsize_ = l.size();
+    l.size_ = size_;
+    size_ = auxsize_;
+}
 
 /*******************************************************************/
 

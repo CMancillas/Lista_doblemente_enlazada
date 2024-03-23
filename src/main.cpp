@@ -20,12 +20,15 @@ int main() {
  
     l.insertBeginning(7);
     l.insertBeginning(8);
-    l.printForward();
+    l.printForward(); 
 
 
-    list.transfer(l, 1, 2); 
-     //listclear( );       
+    //list.transfer(l, 0, 3);
+    list.intercambiar(l);
     list.printForward(); 
-    return 0;
+    l.printForward();     
+   //lis tclear( );  
+    
+   return 0; 
 }
       
