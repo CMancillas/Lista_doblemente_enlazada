@@ -24,7 +24,7 @@ public:
     void deleteFirst();
     void deleteLast();
     void deleteIndicatedIndex(int index);
-    T searchValue(int index) const;
+    bool searchValue(int index) const;
     int searchIndex(T value) const;
     bool isEmpty() const;
     T getFirstValue() const;
