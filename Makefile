@@ -17,7 +17,7 @@ SRCS = $(wildcard $(SRCDIR)/*.cpp)
 # Archivos objeto generados durante la compilación
 OBJS = $(patsubst $(SRCDIR)/%.cpp, $(BUILDDIR)/%.o, $(SRCS))
 
-# Regla principal 
+# Regla principal  
 
 all:
 	$(BINDIR)/$(TARGET)
